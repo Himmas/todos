@@ -108,17 +108,67 @@ input{
     display: block;
 }
 .item .destroy{
+    display: none;
     position: absolute;
     right: 10px;
-    bottom: 20px;
+    bottom: 0px;
+    width: 40px;
+    height: 40px;
+    top: 0px;
+    margin: auto 0;
+    transition: color 0.2s ease-out;
+    color:#cc9a9a;
+    font-size: 30px;
 }
 .item .destroy:after{
     content: "×";
-    font-size: 24px;
-    color: brown;
 }
 button{
     border: none;
     background-color: #fff;
     outline: none;
+}
+#footer{
+    color: #777;
+    padding: 10px 15px;
+    height: 20px;
+    text-align: center;
+}
+#footer:after{
+    content: '';
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
+}
+#todo-count{
+    float: left;
+}
+#todo-filter {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    left: 0;
+    list-style: none;
+}
+#todo-filter li{
+    display: inline;
+}
+#todo-filter li a{
+    color: inherit;
+    margin: 0 8px;
+    padding: 0 6px;
+    text-decoration: none;
+    border:1px solid rgba(80, 64, 64, 0);
+    border-radius: 3px;
+}
+#todo-filter li a:hover {
+    border-color: rgba(175, 47, 47, 0.1);
+}
+#todo-filter li a.selected{
+    border-color: rgb(175, 47, 47);
 }
