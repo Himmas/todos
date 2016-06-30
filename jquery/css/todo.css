@@ -82,17 +82,24 @@ input{
 }
 .item .tag {
     position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 5px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance:none;
+    background: url("../pic/tag.png");
+    background-size: 100%;
+
 }
-.item .tag:after{
+/*.item .tag:after{
     content: "◯";
     font-size: 34px;
     color: #e4e2e2;
-}
-.item .tag:checked:after{
-    content: url(../pic/checked.png);
+}*/
+.item .tag:checked{
+    background: url("../pic/checked.png");
+    background-size: 100%;
 
 }
 .item label{
@@ -108,6 +115,7 @@ input{
 .item .destroy:after{
     content: "×";
     font-size: 24px;
+    color: brown;
 }
 button{
     border: none;
