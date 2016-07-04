@@ -62,8 +62,14 @@ $("#todo-list").on({
 //给destroy加删除item事件
 $("#todo-list").on("click",".destroy",function (event){
     $(event.target).parent().parent().remove();
-    count--;
+    if(!$(event.target).siblings("label").hasClass("tagged")){
+        count--;
+    }
     updatecount();
+})
+//给tag加横线
+$("#todo-list").on("click",".tag",function (event){
+    tag($(event.target).siblings("label"));
 })
 //添加键盘输入事件,如果是enter即有效
 $("#things-todo").keydown(function(event){
@@ -84,10 +90,26 @@ function pushItem(id,content) {
     count++;
     updatecount();
 }
+//更新count
 function updatecount(){
     if(count==0){
         $("#footer").css("display","none");
         $("#content-todos").css("display","none");
+    }
+    $("#footer strong").html(count);
+}
+//画线以及去线
+function tag($tag){
+    if(!$tag.hasClass("tagged")){
+        count--;
+        /*$(event.target).siblings("label").css("text-decoration","line-through");
+        $(event.target).siblings("label").css("color","#f5f5f5");*/
+        $tag.addClass("tagged");
+    }else {
+        count++;
+        /*$(event.target).siblings("label").css("text-decoration","none");
+        $(event.target).siblings("label").css("color","black");*/
+        $tag.removeClass("tagged");
     }
     $("#footer strong").html(count);
 }

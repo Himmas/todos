@@ -202,3 +202,7 @@ a{
 #content-todos,#footer{
     display:none;
 }
+.tagged{
+    text-decoration: line-through;
+    color:#e4e4e4;
+}
