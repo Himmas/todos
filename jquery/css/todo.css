@@ -1,3 +1,6 @@
+/**
+ * Created by lijie on 16/6/30.
+ */
 html,body{
     margin: 0;
     padding: 0;
@@ -23,7 +26,7 @@ input{
 }
 #header h1{
     position: absolute;
-    top: -150px;
+    top: -153px;
     width: 100%;
     text-align: center;
     font-size: 100px;
@@ -117,11 +120,14 @@ input{
     top: 0px;
     margin: auto 0;
     transition: color 0.2s ease-out;
-    color:#cc9a9a;
+    color:rgba(115, 16, 16, 0.3);
     font-size: 30px;
 }
 .item .destroy:after{
     content: "×";
+}
+.item .destroy:hover{
+    color:rgb(115, 16, 16);
 }
 button{
     border: none;
@@ -173,7 +179,7 @@ button{
     border-radius: 3px;
     cursor:auto;
 }
-a:-webkit-any-link{
+a{
     cursor:auto;
 }
 #todo-filter li a:hover {
@@ -193,6 +199,6 @@ a:-webkit-any-link{
 #clear:hover{
     text-decoration: underline;
 }
-a button{
-    z-index:2;
+#content-todos,#footer{
+    display:none;
 }
