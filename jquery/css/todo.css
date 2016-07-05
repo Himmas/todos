@@ -206,3 +206,4 @@ a{
     text-decoration: line-through;
     color:#e4e4e4;
 }
+#todo-list li:hover .destroy{display:block}

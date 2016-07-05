@@ -51,14 +51,14 @@ function gethashcode() {
     var hashcode=hashCode(myRandom+timestamp.toString());
     return hashcode;
 }
-//给li绑定mouseenter以及mouseleave事件
+/*//给li绑定mouseenter以及mouseleave事件
 $("#todo-list").on({
     mouseenter:function(){
         $(this).find(".destroy").css("display","block");
     },mouseleave:function () {
         $(this).find(".destroy").css("display","none");
     }
-},"li");
+},"li");*/
 //给destroy加删除item事件
 $("#todo-list").on("click",".destroy",function (event){
     $(event.target).parent().parent().remove();
@@ -92,7 +92,7 @@ function pushItem(id,content) {
 }
 //更新count
 function updatecount(){
-    if(count==0){
+    if($("#todo-list li").length == "0"){
         $("#footer").css("display","none");
         $("#content-todos").css("display","none");
     }
