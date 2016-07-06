@@ -41,8 +41,6 @@ function randomWord(randomFlag, min, max) {
     }
     return str;
 }
-//定义一个用来存item数量的变量;
-var count = 0;
 //获取item的id随机量
 function gethashcode() {
     //定义一个时间戳，计算与1970年相差的毫秒数  用来获得唯一时间
@@ -51,6 +49,16 @@ function gethashcode() {
     var hashcode=hashCode(myRandom+timestamp.toString());
     return hashcode;
 }
+//定义一个用来存item数量的变量;
+var count = 0,items;
+$(function () {
+    items = JSON.parse(window.localStorage.getItem("items"));
+    if(items!=null){
+        for(var key in items){
+            pushItem(items[key].id,items[key].content,items[key].tagged,true);
+        }
+    }else items = [];
+})
 /*//给li绑定mouseenter以及mouseleave事件
 $("#todo-list").on({
     mouseenter:function(){
@@ -61,6 +69,8 @@ $("#todo-list").on({
 },"li");*/
 //给destroy加删除item事件
 $("#todo-list").on("click",".destroy",function (){
+    var id = $(this).parent().parent().attr("id");
+    deleteItem(id);
     $(this).parent().parent().remove();
     if(!$(this).siblings("label").hasClass("tagged")){
         count--;
@@ -69,18 +79,18 @@ $("#todo-list").on("click",".destroy",function (){
 })
 //给tag加横线
 $("#todo-list").on("click",".tag",function (){
-    tag($(this).siblings("label"));
+    tag($(this).siblings("label"),$(this).parent().parent().attr("id"));
 })
 //添加键盘输入事件,如果是enter即有效
 $("#things-todo").keydown(function(event){
     var content = $("#things-todo").val();
     if(event.keyCode=='13' && content!=""){
         var hashcode = gethashcode();
-        pushItem(hashcode,content);
+        pushItem(hashcode,content,false);
     }
 })
 //生成item
-function pushItem(id,content) {
+function pushItem(id,content,tagged,v) {
     $("#todo-list").append('<li id="'+id+'"> <div class="item"> <input class="tag" type="checkbox"> <label>'+content+'</label> <button class="destroy"></button> </div> <input class="edit" value="'+content+'"> </li>');
     if($("#footer").css("display")=="none"||$("#content-todos").css("display")=="none"){
         $("#footer").css("display","block");
@@ -89,6 +99,11 @@ function pushItem(id,content) {
     $("#things-todo").val("");
     count++;
     updatecount();
+    if(tagged){
+        $("#"+id).find(".tag").click();
+    }else if(!v){
+        setItemsToLocalstorage(id,content,tagged);
+    }
 }
 //更新count
 function updatecount(){
@@ -99,14 +114,16 @@ function updatecount(){
     $("#footer strong").html(count);
 }
 //画线以及去线
-function tag($tag){
+function tag($tag,id){
     if(!$tag.hasClass("tagged")){
         count--;
+        updateLocalstorage(id,true);
         /*$(event.target).siblings("label").css("text-decoration","line-through");
         $(event.target).siblings("label").css("color","#f5f5f5");*/
         $tag.addClass("tagged");
     }else {
         count++;
+        updateLocalstorage(id,false);
         /*$(event.target).siblings("label").css("text-decoration","none");
         $(event.target).siblings("label").css("color","black");*/
         $tag.removeClass("tagged");
@@ -150,3 +167,33 @@ $("#tagall").click(function () {
         $("#todo-list li label:not(.tagged)").siblings("input").click();
     }
 })
+//存入localstorage中
+function setItemsToLocalstorage(id, content,tagged) {
+    var item = {};
+    item.id = id;
+    item.content = content;
+    item.tagged = tagged;
+    items.push(item);
+    window.localStorage.setItem("items",JSON.stringify(items));
+}
+//从localstorage中删除item
+function deleteItem(id){
+    for(var key in items){
+        if(id == items[key].id){
+            //delete items[key];
+            items.splice(key,1);
+            break;
+        }
+    }
+    window.localStorage.setItem("items",JSON.stringify(items));
+}
+//更新tagged
+function updateLocalstorage(id,tagged){
+    for(var key in items){
+        if(id == items[key].id){
+            items[key].tagged = tagged;
+            break;
+        }
+    }
+    window.localStorage.setItem("items",JSON.stringify(items));
+}
