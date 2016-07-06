@@ -60,16 +60,16 @@ $("#todo-list").on({
     }
 },"li");*/
 //给destroy加删除item事件
-$("#todo-list").on("click",".destroy",function (event){
-    $(event.target).parent().parent().remove();
-    if(!$(event.target).siblings("label").hasClass("tagged")){
+$("#todo-list").on("click",".destroy",function (){
+    $(this).parent().parent().remove();
+    if(!$(this).siblings("label").hasClass("tagged")){
         count--;
     }
     updatecount();
 })
 //给tag加横线
-$("#todo-list").on("click",".tag",function (event){
-    tag($(event.target).siblings("label"));
+$("#todo-list").on("click",".tag",function (){
+    tag($(this).siblings("label"));
 })
 //添加键盘输入事件,如果是enter即有效
 $("#things-todo").keydown(function(event){
@@ -113,3 +113,40 @@ function tag($tag){
     }
     $("#footer strong").html(count);
 }
+//筛选事件
+$("#todo-filter li a").on("click",function () {
+    $("#todo-filter li").find(".selected").removeClass("selected");
+    $(this).addClass("selected");
+    filterItems($(this).attr("href"));
+})
+//筛选items
+function filterItems(v){
+    switch (v){
+        case "#/all" :
+            $("#todo-list li").css("display","block");
+            break;
+        case "#/active" :
+            $("#todo-list li").css("display","block");
+            $("#todo-list li").find(".tagged").parent().parent().css("display","none");
+            break;
+        case "#/completed" :
+            $("#todo-list li").css("display","none");
+            $("#todo-list li").find(".tagged").parent().parent().css("display","block");
+            break;
+
+    }
+}
+//clearCompleted事件
+$("#clear").click(function(){
+    $("#todo-list li").find(".tagged").siblings(".destroy").click();
+})
+//全选及全取消todos事件
+$("#tagall").click(function () {
+    if($(this).hasClass("checkall")){
+        $(this).removeClass("checkall");
+        $("#todo-list li .tagged").siblings("input").click();
+    }else{
+        $(this).addClass("checkall");
+        $("#todo-list li label:not(.tagged)").siblings("input").click();
+    }
+})
